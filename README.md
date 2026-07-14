@@ -3,7 +3,7 @@
 🚀 A comprehensive, structured 90-day hands-on journey to becoming a **Founding GTM Engineer** / **Revenue Systems Architect**.
 
 Developed & Maintained by **Anand Kumar**
-🔗 **GitHub**: [github.com/AnandKg22](https://github.com/AnandKg22) | 🔗 **LinkedIn**: [linkedin.com/in/anandkg22](https://www.linkedin.com/in/anandkg22/)
+🔗 **Website**: [akstack.com](https://akstack.com) | 🔗 **GitHub**: [github.com/AnandKg22](https://github.com/AnandKg22) | 🔗 **LinkedIn**: [linkedin.com/in/anandkg22](https://www.linkedin.com/in/anandkg22/)
 
 ---
 
@@ -192,6 +192,7 @@ Mark your progress as you work through the course!
 
 Developed with 💙 by **Anand Kumar** — GTM Systems Architect & Revenue Engineer.
 
+*   **Website**: [akstack.com](https://akstack.com)
 *   **GitHub**: [@AnandKg22](https://github.com/AnandKg22)
 *   **LinkedIn**: [Anand Kumar on LinkedIn](https://www.linkedin.com/in/anandkg22/)
 *   **Portfolio Repository**: [90-days-of-gtm-engineering](https://github.com/AnandKg22/90-days-of-gtm-engineering)
