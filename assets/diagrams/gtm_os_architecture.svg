@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <!-- Definition of gradients and styles -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGrad)" rx="16"/>
+  
+  <!-- Grid Lines -->
+  <g stroke="rgba(255, 255, 255, 0.03)" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="450" />
+    <line x1="200" y1="0" x2="200" y2="450" />
+    <line x1="300" y1="0" x2="300" y2="450" />
+    <line x1="400" y1="0" x2="400" y2="450" />
+    <line x1="500" y1="0" x2="500" y2="450" />
+    <line x1="600" y1="0" x2="600" y2="450" />
+    <line x1="700" y1="0" x2="700" y2="450" />
+    <line x1="0" y1="100" x2="800" y2="100" />
+    <line x1="0" y1="200" x2="800" y2="200" />
+    <line x1="0" y1="300" x2="800" y2="300" />
+    <line x1="0" y1="400" x2="800" y2="400" />
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" fill="#f8fafc" font-family="'Outfit', sans-serif" font-size="22" font-weight="bold" letter-spacing="1">GTM OS PIPELINE ARCHITECTURE</text>
+  <text x="400" y="65" text-anchor="middle" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="12">End-to-End ingestion, validation, scoring, and routing pipeline</text>
+  
+  <!-- Connections (Lines) -->
+  <path d="M 160 225 L 240 225" stroke="url(#lineGrad)" stroke-width="3" fill="none" />
+  <path d="M 360 225 L 440 225" stroke="url(#lineGrad)" stroke-width="3" fill="none" />
+  <path d="M 560 225 L 640 225" stroke="url(#lineGrad)" stroke-width="3" fill="none" />
+  
+  <path d="M 640 225 L 640 140 H 680" stroke="url(#lineGrad)" stroke-width="2" stroke-dasharray="4" fill="none" />
+  <path d="M 640 225 L 640 310 H 680" stroke="url(#lineGrad)" stroke-width="2" stroke-dasharray="4" fill="none" />
+  
+  <!-- Node 1: Webhook Intake -->
+  <rect x="40" y="175" width="120" height="100" rx="8" fill="url(#boxGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+  <text x="100" y="210" text-anchor="middle" fill="#6366f1" font-family="'Outfit', sans-serif" font-weight="bold" font-size="13">Ingestion</text>
+  <text x="100" y="235" text-anchor="middle" fill="#f8fafc" font-family="'Outfit', sans-serif" font-size="12">Webhook API</text>
+  <text x="100" y="255" text-anchor="middle" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="10">JWT / Limiters</text>
+  
+  <!-- Node 2: Validation & Enrichment -->
+  <rect x="240" y="175" width="120" height="100" rx="8" fill="url(#boxGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+  <text x="300" y="210" text-anchor="middle" fill="#06b6d4" font-family="'Outfit', sans-serif" font-weight="bold" font-size="13">Enrichment</text>
+  <text x="300" y="235" text-anchor="middle" fill="#f8fafc" font-family="'Outfit', sans-serif" font-size="12">Apollo API</text>
+  <text x="300" y="255" text-anchor="middle" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="10">Technographics</text>
+  
+  <!-- Node 3: Scoring & Router -->
+  <rect x="440" y="175" width="120" height="100" rx="8" fill="url(#boxGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+  <text x="500" y="210" text-anchor="middle" fill="#10b981" font-family="'Outfit', sans-serif" font-weight="bold" font-size="13">Scoring</text>
+  <text x="500" y="235" text-anchor="middle" fill="#f8fafc" font-family="'Outfit', sans-serif" font-size="12">ICP Rules</text>
+  <text x="500" y="255" text-anchor="middle" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="10">Lead Ranking</text>
+  
+  <!-- Output Target 1: CRM Salesforce -->
+  <rect x="680" y="100" width="100" height="80" rx="8" fill="url(#boxGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+  <text x="730" y="135" text-anchor="middle" fill="#e11d48" font-family="'Outfit', sans-serif" font-weight="bold" font-size="12">HubSpot</text>
+  <text x="730" y="155" text-anchor="middle" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="10">CRM Synced</text>
+  
+  <!-- Output Target 2: Slack Alert -->
+  <rect x="680" y="270" width="100" height="80" rx="8" fill="url(#boxGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+  <text x="730" y="305" text-anchor="middle" fill="#f59e0b" font-family="'Outfit', sans-serif" font-weight="bold" font-size="12">Slack</text>
+  <text x="730" y="325" text-anchor="middle" fill="#94a3b8" font-family="'Outfit', sans-serif" font-size="10">Sales Alert</text>
+</svg>
