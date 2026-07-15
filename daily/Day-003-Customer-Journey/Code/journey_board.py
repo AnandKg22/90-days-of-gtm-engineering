@@ -65,15 +65,15 @@ mock_event_feed = [
     {"user_id": "usr_9921", "event_name": "page_view", "properties": {"url": "/home"}},
     {"user_id": "usr_9921", "event_name": "page_view", "properties": {"url": "/features"}},
     {"user_id": "usr_9921", "event_name": "page_view", "properties": {"url": "/pricing"}}, # High intent
-    {"user_id": "usr_9921", "event_name": "form_signup", "properties": {"email": "captain@imsgoa.org", "company": "IMSGOA"}},
-    {"user_id": "usr_9921", "event_name": "enrichment_completed", "properties": {"employee_count": 80, "industry": "Maritime Academy"}}, # SQL
+    {"user_id": "usr_9921", "event_name": "form_signup", "properties": {"email": "alex.dev@acmecorp.com", "company": "Acme Corp"}},
+    {"user_id": "usr_9921", "event_name": "enrichment_completed", "properties": {"employee_count": 80, "industry": "Software & Tech"}}, # SQL
     {"user_id": "usr_9921", "event_name": "demo_booked", "properties": {"scheduled_at": "2026-07-15 10:00:00"}}, # Opportunity
     {"user_id": "usr_9921", "event_name": "payment_success", "properties": {"amount": 5000.00, "plan": "Enterprise B2B"}} # Customer
 ]
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("        INITIALIZING VIVAEXAMS JOURNEY TRACKING RUN")
+    print("        INITIALIZING CLOUDSENTRY JOURNEY TRACKING RUN")
     print("=" * 60)
     
     tracker = JourneyTracker()

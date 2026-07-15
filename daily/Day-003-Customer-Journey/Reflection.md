@@ -8,7 +8,7 @@ A personal log reflecting on the learning outcomes and concepts mastered on Day 
 
 1.  **Tracking Intent is Crucial**: By identifying high-intent touchpoints (like visiting `/pricing`), the system can alert sales reps immediately, increasing outbound conversion rates compared to cold outreach.
 2.  **State Machines Prevent Pipeline Chaos**: Using a state machine with strict transition rules (e.g. `Visitor -> Lead -> SQL -> Opportunity -> Customer`) ensures that contact stages remain consistent in the CRM. It prevents manual user errors where reps move prospects to stages they haven't qualified for.
-3.  **Complex B2B Purchasing Committees**: In maritime B2B sales (such as pitching IMSGOA or Tolani), we aren't just selling to one person. The champion might be a faculty member, but the economic buyer is the Dean. The GTM database must capture these relationships to tailor emails accordingly.
+3.  **Complex B2B Purchasing Committees**: In B2B SaaS sales (such as pitching CloudSentry to enterprise targets like Acme Corp), we aren't just selling to one person. The champion might be a DevOps Engineer who loves our CLI and automated scans, but the economic buyer is the VP of Engineering or CFO. The technical blocker might be the Director of Security (who demands a SOC2 report). The GTM database must capture these distinct relationships to tailor email copy and outreach paths accordingly.
 
 ---
 

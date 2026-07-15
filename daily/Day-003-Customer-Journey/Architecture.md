@@ -48,8 +48,8 @@ Fired when the user signs up for a trial account:
   "user_id": "usr_9921",
   "event_name": "form_signup",
   "properties": {
-    "email": "captain@imsgoa.org",
-    "company": "IMSGOA"
+    "email": "alex.dev@acmecorp.com",
+    "company": "Acme Corp"
   }
 }
 ```

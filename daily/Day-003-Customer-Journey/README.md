@@ -20,13 +20,14 @@ Understand user progression through the lifecycle stages, and learn how to track
 
 ---
 
-## 🛠️ Practical Exercise: IMSGOA Admission Journey
+## 🛠️ Practical Exercise: CloudSentry Customer Journey
 
-In this exercise, we mapped the specialized, DGS-compliant customer journey for the **Institute of Maritime Studies Goa (IMSGOA)**:
-1.  **Inquiry**: Cadet downloads the prospectus (Lead).
-2.  **Shortlist**: Passes eligibility checks, technical exams, and interviews (SQL).
-3.  **Enrollment**: Completes medical tests, receives ship sponsorship, and pays fees (Customer).
-4.  **Alumni**: Cadet completes Pre-Sea, sails for 18 months, and returns to IMSGOA for advanced MEO competency prep courses (Renewal).
+In this exercise, we mapped the B2B SaaS customer journey for **CloudSentry** (an AI-powered cloud cost optimization and compliance platform):
+1.  **Inquiry**: Lead signs up for a trial account or downloads a cloud security checklist (Lead).
+2.  **Qualification**: Lead profile is enriched and identified as a mid-market organization with AWS integration needs (SQL).
+3.  **Evaluation**: Lead schedules an enterprise demo or sets up a cloud integration sandbox (Opportunity).
+4.  **Enrollment**: Customer signs an annual service contract and pays the initial subscription invoice (Customer).
+5.  **Retention & Growth**: Customer integrates additional multi-cloud workloads and upgrades to the premium compliance module (Expansion).
 
 *View the complete mapping stages in [Exercises.md](Exercises.md).*
 
@@ -45,7 +46,7 @@ We built an automated state-machine engine in [Code/journey_board.py](Code/journ
 
 ## 📂 Expected Deliverables
 *   📝 [Day 3 Study Notes](Notes.md) — Insights on touchpoints, intent, and buying committees.
-*   📝 [IMSGOA Journey Outline](Exercises.md) — Detailed maritime cadet mapping.
+*   📝 [CloudSentry Journey Outline](Exercises.md) — Detailed SaaS customer mapping.
 *   📝 [State Machine Specification](Assignment.md) — Project requirements.
 *   📊 [State Engine Diagram](Architecture.md) — Telemetry-to-database webhook architecture.
 *   💻 [State Machine Script](Code/journey_board.py) — Executable pipeline tracker.
