@@ -6,19 +6,19 @@ This document details the data pipeline architecture that automates market segme
 
 ## 🔄 Market Segmentation Data Flow
 
-The diagram below details how raw prospect records are classified, valued, and visualized:
+The diagram below details how raw school and coaching center lead records are classified, valued, and visualized:
 
 ```mermaid
 graph TD
-    List[Raw Prospect CSV / API Lists] -->|1. Bulk Upload| Engine[Segmentation Engine Service]
+    List[Raw School CSV / CRM API Lists] -->|1. Bulk Upload| Engine[Segmentation Engine Service]
     
     subgraph Classification Stage
-        Engine -->|2. Check Location/DGS| SAM_Check{Is India & DGS Approved?}
-        SAM_Check -->|No| TAM[(TAM Segment)]
-        SAM_Check -->|Yes| SOM_Check{Uses Moodle & In South/West?}
+        Engine -->|2. Check Location/Board| SAM_Check{Is India & Board Affiliated?}
+        SAM_Check -->|No| TAM[(TAM Segment - Global)]
+        SAM_Check -->|Yes| SOM_Check{Uses Moodle/Canvas & In North/South?}
         
-        SOM_Check -->|No| SAM[(SAM Segment)]
-        SOM_Check -->|Yes| SOM[(SOM Segment)]
+        SOM_Check -->|No| SAM[(SAM Segment - India)]
+        SOM_Check -->|Yes| SOM[(SOM Segment - Active Target)]
     end
     
     subgraph Revenue Dashboard
@@ -32,22 +32,25 @@ graph TD
 
 ## ⚙️ SQL Segmentation Rules
 
-To run these segments directly in the PostgreSQL database replica, the dashboard queries use conditional SQL grouping:
+To run these segments directly in our PostgreSQL database replica, the analytics dashboard queries use conditional SQL grouping. The base annual contract value is set to **$1,200** per school:
 
 ```sql
 -- Compute TAM/SAM/SOM segment counts and contract values
 SELECT 
+    -- TAM: All schools in the system
     COUNT(id) AS tam_count,
-    SUM(8000) AS tam_value,
+    SUM(1200) AS tam_value,
     
-    COUNT(id) FILTER(WHERE country = 'IN' AND dgs_approved = true) AS sam_count,
-    SUM(8000) FILTER(WHERE country = 'IN' AND dgs_approved = true) AS sam_value,
+    -- SAM: Board-affiliated schools located in India
+    COUNT(id) FILTER(WHERE country = 'IN' AND is_board_affiliated = true) AS sam_count,
+    SUM(1200) FILTER(WHERE country = 'IN' AND is_board_affiliated = true) AS sam_value,
     
-    COUNT(id) FILTER(WHERE country = 'IN' AND dgs_approved = true 
-                       AND region IN ('West', 'South') 
-                       AND 'Moodle' = ANY(tech_stack)) AS som_count,
-    SUM(8000) FILTER(WHERE country = 'IN' AND dgs_approved = true 
-                       AND region IN ('West', 'South') 
-                       AND 'Moodle' = ANY(tech_stack)) AS som_value
-FROM academy_prospects;
+    -- SOM: Indian, board-affiliated schools running Moodle/Canvas in North or South regions
+    COUNT(id) FILTER(WHERE country = 'IN' AND is_board_affiliated = true 
+                       AND region IN ('North', 'South') 
+                       AND ('Moodle' = ANY(tech_stack) OR 'Canvas' = ANY(tech_stack))) AS som_count,
+    SUM(1200) FILTER(WHERE country = 'IN' AND is_board_affiliated = true 
+                       AND region IN ('North', 'South') 
+                       AND ('Moodle' = ANY(tech_stack) OR 'Canvas' = ANY(tech_stack))) AS som_value
+FROM school_prospects;
 ```
