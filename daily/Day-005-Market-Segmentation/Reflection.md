@@ -14,7 +14,7 @@ A personal log reflecting on the learning outcomes and concepts mastered on Day 
 
 ## 💻 Script Verification
 
-I ran the [segmentation_engine.py](file:///D:/Books/90Days-GTM-Engineer/gtm-portfolio-public/daily/Day-005-Market-Segmentation/Code/segmentation_engine.py) script to test our market segmentation model.
+I ran the [segmentation_engine.py](Code/segmentation_engine.py) script to test our market segmentation model.
 *   **Result**: Out of 10 mock school and coaching center prospects:
     *   **TAM**: 10 accounts, valued at $12,000.
     *   **SAM**: 7 accounts (Board-affiliated schools in India), valued at $8,400.
