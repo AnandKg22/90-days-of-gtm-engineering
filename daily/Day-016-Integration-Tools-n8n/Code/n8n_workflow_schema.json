@@ -1,0 +1,194 @@
+{
+  "name": "VivaExams - Stripe to CRM Sync and Alert Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stripe-payment",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "node_webhook_trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse domain from Stripe billing email\nconst item = items[0].json;\nconst email = item.customer_email || \"\";\nitem.domain = email.includes(\"@\") ? email.split(\"@\")[1] : \"\";\nreturn [{ json: item }];"
+      },
+      "id": "node_code_parser",
+      "name": "Parse Email Domain",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [300, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/v1/people/match",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Key",
+              "value": "apollo_secret_api_key_99182"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{$json.customer_email}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node_apollo_http",
+      "name": "Apollo Enrichment API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [500, 240]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.organization.estimated_num_employees}}",
+              "operation": "larger",
+              "value2": 50
+            }
+          ]
+        }
+      },
+      "id": "node_if_filter",
+      "name": "Is Enterprise?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [700, 240]
+    },
+    {
+      "parameters": {
+        "resource": "company",
+        "operation": "upsert",
+        "name": "={{$json.organization.name}}",
+        "additionalFields": {
+          "cadet_seats_purchased": "={{$node[\"Webhook Trigger\"].json[\"quantity\"]}}"
+        }
+      },
+      "id": "node_hubspot_crm",
+      "name": "Upsert HubSpot Company",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [920, 180]
+    },
+    {
+      "parameters": {
+        "postAs": "bot",
+        "select": "channel",
+        "channelId": "C01A2B3C4D5",
+        "text": "[DEAL CLOSED WON]\n- Company: {{$node[\"Apollo Enrichment API\"].json[\"organization\"][\"name\"]}}\n- Seats:   {{$node[\"Webhook Trigger\"].json[\"quantity\"]}}\n- Value:   ${{$node[\"Webhook Trigger\"].json[\"amount_total\"]}} USD"
+      },
+      "id": "node_slack_notify",
+      "name": "Slack Deal Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [1120, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.activecampaign.com/api/3/contacts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{$node[\"Webhook Trigger\"].json[\"customer_email\"]}}"
+            }
+          ]
+        }
+      },
+      "id": "node_active_campaign",
+      "name": "Add to Nurture Drip",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [920, 320]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse Email Domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Email Domain": {
+      "main": [
+        [
+          {
+            "node": "Apollo Enrichment API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apollo Enrichment API": {
+      "main": [
+        [
+          {
+            "node": "Is Enterprise?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Enterprise?": {
+      "main": [
+        [
+          {
+            "node": "Upsert HubSpot Company",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add to Nurture Drip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert HubSpot Company": {
+      "main": [
+        [
+          {
+            "node": "Slack Deal Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {
+    "instanceId": "viva_exams_n8n_instance_889021"
+  }
+}
