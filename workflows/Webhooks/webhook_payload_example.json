@@ -1,0 +1,28 @@
+{
+  "events": [
+    {
+      "event": "company.signup",
+      "token": "vivaexams_secure_token_99",
+      "timestamp": "2026-07-13T14:30:00Z",
+      "data": {
+        "company_id": 404,
+        "company_name": "LexCorp Labs",
+        "industry": "Maritime Defense",
+        "employees": 650,
+        "country": "US"
+      }
+    },
+    {
+      "event": "deal.closed",
+      "token": "vivaexams_secure_token_99",
+      "timestamp": "2026-07-13T14:35:00Z",
+      "data": {
+        "deal_id": 901,
+        "company_id": 404,
+        "deal_name": "LexCorp Defense Licensing",
+        "amount_usd": 120000.00,
+        "license_seats": 300
+      }
+    }
+  ]
+}
