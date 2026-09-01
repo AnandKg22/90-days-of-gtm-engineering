@@ -1,0 +1,34 @@
+[
+  {
+    "lead_id": 202,
+    "email": "dean@imsgoa.org",
+    "company_name": "IMSGOA Maritime Inc",
+    "deal_amount": 8000.0,
+    "timestamp": "2026-06-15",
+    "quarantine_reason": "Duplicate lead record; older timestamp superseded."
+  },
+  {
+    "lead_id": 203,
+    "email": "sharma@tolani",
+    "company_name": "Tolani Maritime",
+    "deal_amount": 12000.0,
+    "timestamp": "2026-07-03",
+    "quarantine_reason": "Invalid email format (must contain '@' and '.')"
+  },
+  {
+    "lead_id": 204,
+    "email": "registrar@ametuniv.edu.in",
+    "company_name": "AMET University",
+    "deal_amount": -1500.0,
+    "timestamp": "2026-07-05",
+    "quarantine_reason": "Invalid deal amount (value must be >= 0.0)"
+  },
+  {
+    "lead_id": 205,
+    "email": "student@maritime.com",
+    "company_name": null,
+    "deal_amount": 3000.0,
+    "timestamp": "2026-07-08",
+    "quarantine_reason": "Missing company name (field cannot be null or empty)"
+  }
+]
