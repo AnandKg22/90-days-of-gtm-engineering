@@ -1,0 +1,9 @@
+[
+  {
+    "audit_id": 301,
+    "action": "ANONYMIZE_USER_GDPR_REQUEST",
+    "user_id": "usr_01",
+    "hashed_identifier": "3875894652fd60faeb9150f0c3d73677e5c21d73d041542e2beddb5076df3eb8",
+    "timestamp": "2026-07-13T10:46:53Z"
+  }
+]
