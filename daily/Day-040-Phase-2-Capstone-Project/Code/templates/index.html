@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Revenue Automation Platform (ARAP) v1</title>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0b071a;
+            --sidebar-color: rgba(15, 10, 31, 0.85);
+            --card-color: rgba(26, 20, 51, 0.55);
+            --border-color: rgba(124, 58, 237, 0.25);
+            --border-hover: rgba(124, 58, 237, 0.5);
+            --text-primary: #f3f1f8;
+            --text-secondary: #a39cb5;
+            --primary: #8b5cf6;
+            --primary-gradient: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            --accent-glow: 0 0 15px rgba(139, 92, 246, 0.4);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --cyan: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(59, 130, 246, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            overflow-hidden: auto;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Design */
+        aside {
+            width: 260px;
+            background: var(--sidebar-color);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            background: var(--primary-gradient);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--accent-glow);
+        }
+
+        .logo-icon i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 18px;
+            background: linear-gradient(135deg, #fff, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 18px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            color: var(--text-primary);
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateX(4px);
+        }
+
+        .menu-item.active {
+            color: white;
+            background: var(--primary-gradient);
+            box-shadow: var(--accent-glow);
+        }
+
+        .menu-item i {
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #4c1d95;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary);
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+        }
+
+        .user-info .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .user-info .user-role {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Main Workspace Content */
+        main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .header-title h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
+        }
+
+        .header-title p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-hover);
+        }
+
+        /* Dashboard Overview Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: var(--card-color);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon-wrapper {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(139, 92, 246, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .stat-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .stat-trend-up {
+            color: var(--success);
+        }
+
+        /* Main Workspace Section Columns */
+        .dashboard-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        .section-card {
+            background: var(--card-color);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 28px;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Lead Table Design */
+        .leads-table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 14px 16px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px;
+            font-size: 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+        }
+
+        .score-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .score-hot {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .score-warm {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .score-cold {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-new {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+        }
+
+        .status-enriched {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .status-synced {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Activity Logger View */
+        .activity-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 14px;
+            font-size: 12px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        .act-ingest { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .act-enrich { background: rgba(139, 92, 246, 0.15); color: var(--primary); }
+        .act-analysis { background: rgba(6, 182, 212, 0.15); color: var(--cyan); }
+        .act-crm { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .act-email { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .act-start { background: rgba(255, 255, 255, 0.08); color: white; }
+
+        .activity-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .activity-text {
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .activity-time {
+            color: var(--text-secondary);
+            font-size: 10px;
+        }
+
+        /* Lead Intake Form CSS */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group-full {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            background: rgba(15, 10, 31, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Lead Detail Slide-over Panel */
+        .details-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 550px;
+            height: 100vh;
+            background: rgba(16, 12, 38, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border-color);
+            z-index: 100;
+            padding: 40px;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .details-panel.open {
+            right: 0;
+        }
+
+        .panel-close {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .panel-close:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .panel-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .panel-sub {
+            color: var(--text-secondary);
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .panel-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .panel-section h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grid-enrich {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            font-size: 12px;
+        }
+
+        .enrich-label {
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .enrich-val {
+            font-weight: 600;
+            color: white;
+        }
+
+        .score-bar-container {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            width: 0;
+            transition: width 0.8s ease;
+        }
+
+        .factors-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 11px;
+        }
+
+        .factors-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+        }
+
+        .factors-list li i {
+            color: var(--success);
+        }
+
+        .ai-output-box {
+            background: rgba(15, 10, 31, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+        }
+
+        .btn-copy {
+            padding: 6px 12px;
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary-gradient);
+            border-color: transparent;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary-gradient);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Tabs display control */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Overlay for detail slide-over */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 90;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Menu -->
+    <aside>
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="logo-text">REV-OS v1</div>
+        </div>
+        
+        <ul class="menu-list">
+            <li class="menu-item active" data-tab="dashboard">
+                <i class="fa-solid fa-chart-line"></i> Dashboard
+            </li>
+            <li class="menu-item" data-tab="leads">
+                <i class="fa-solid fa-user-group"></i> Leads Pipeline
+            </li>
+            <li class="menu-item" data-tab="intake">
+                <i class="fa-solid fa-file-invoice"></i> Ingest Lead
+            </li>
+            <li class="menu-item" data-tab="audit">
+                <i class="fa-solid fa-list-check"></i> Activity Audit
+            </li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <div class="user-avatar">AM</div>
+            <div class="user-info">
+                <div class="user-name">Alex Miller</div>
+                <div class="user-role">GTM Engineer (Admin)</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main>
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1 id="page-title">GTM Command Center</h1>
+                <p id="page-subtitle">Unified revenue automation dashboard & operations logger</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="fetchDashboardData()"><i class="fa-solid fa-arrows-rotate"></i> Sync Data</button>
+                <button class="btn btn-primary" onclick="switchTab('intake')"><i class="fa-solid fa-plus"></i> New Lead</button>
+            </div>
+        </header>
+
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast">
+            <i class="fa-solid fa-circle-check"></i> <span id="toast-message">Success message</span>
+        </div>
+
+        <!-- Detail Overlay -->
+        <div id="overlay" class="overlay" onclick="closeDetailsPanel()"></div>
+
+        <!-- Slide-over details panel -->
+        <div id="details-panel" class="details-panel">
+            <button class="panel-close" onclick="closeDetailsPanel()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="panel-header">
+                <h2 id="lead-details-name">Lead Name</h2>
+                <div class="panel-sub">
+                    <span id="lead-details-company"><i class="fa-solid fa-building"></i> Company</span>
+                    <span>|</span>
+                    <span id="lead-details-status" class="status-pill status-new">New</span>
+                </div>
+            </div>
+
+            <!-- Scorecard Section -->
+            <div class="panel-section">
+                <h3><i class="fa-solid fa-gauge-high"></i> Lead Scoring Metrics</h3>
+                <div class="score-bar-container">
+                    <div id="lead-details-score-bar" class="score-bar-fill"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span style="font-size: 14px; font-weight: 700;">Score: <span id="lead-details-score-val" style="color: var(--primary);">0</span>/100</span>
+                    <span id="lead-details-score-badge" class="score-badge score-cold">COLD</span>
+                </div>
+                <ul id="lead-details-factors" class="factors-list">
+                    <!-- Factors list injected here -->
+                </ul>
+            </div>
+
+            <!-- Enrichment Section -->
+            <div class="panel-section">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Firmographic Enrichment</h3>
+                <div class="grid-enrich">
+                    <div>
+                        <div class="enrich-label">Industry</div>
+                        <div id="lead-details-industry" class="enrich-val">-</div>
+                    </div>
+                    <div>
+                        <div class="enrich-label">Employees</div>
+                        <div id="lead-details-employees" class="enrich-val">-</div>
+                    </div>
+                    <div>
+                        <div class="enrich-label">Funding</div>
+                        <div id="lead-details-funding" class="enrich-val">-</div>
+                    </div>
+                    <div>
+                        <div class="enrich-label">Technology Stack</div>
+                        <div id="lead-details-tech" class="enrich-val">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Summary Section -->
+            <div class="panel-section">
+                <h3><i class="fa-solid fa-robot"></i> AI Company Summary</h3>
+                <div id="lead-details-ai-summary" class="ai-output-box">-</div>
+            </div>
+
+            <!-- AI Pain-Point Section -->
+            <div class="panel-section">
+                <h3><i class="fa-solid fa-fire-flame-curved"></i> AI Pain-Point Analysis</h3>
+                <div id="lead-details-ai-pain" class="ai-output-box">-</div>
+            </div>
+
+            <!-- AI Email Section -->
+            <div class="panel-section">
+                <h3><i class="fa-solid fa-envelope-open-text"></i> AI-Generated Outreach Copy</h3>
+                <div id="lead-details-ai-email" class="ai-output-box" style="font-family: monospace;">-</div>
+                <button class="btn-copy" onclick="copyEmailToClipboard()"><i class="fa-solid fa-copy"></i> Copy Email</button>
+            </div>
+
+            <!-- CRM Sync Section -->
+            <div class="panel-section">
+                <h3><i class="fa-solid fa-cloud-arrow-up"></i> CRM Synchronization</h3>
+                <div id="crm-sync-info" style="font-size: 12px; margin-bottom: 20px; display: none;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                        <span class="enrich-label">HubSpot Contact ID:</span>
+                        <code id="lead-details-hs-id" style="color: var(--cyan); font-weight: 700;">-</code>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span class="enrich-label">Salesforce Lead ID:</span>
+                        <code id="lead-details-sf-id" style="color: var(--primary); font-weight: 700;">-</code>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <button id="btn-action-enrich" class="btn btn-secondary" style="flex:1;" onclick="triggerManualEnrich()"><i class="fa-solid fa-sync"></i> Re-Enrich & Score</button>
+                    <button id="btn-action-crm" class="btn btn-primary" style="flex:1;" onclick="triggerCrmSync()"><i class="fa-solid fa-share-from-square"></i> Push to CRMs</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: DASHBOARD -->
+        <div id="dashboard" class="tab-content active">
+            <!-- Scorecards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Total Ingested</span>
+                        <div class="stat-icon-wrapper"><i class="fa-solid fa-database"></i></div>
+                    </div>
+                    <div id="card-total-leads" class="stat-value">0</div>
+                    <div class="stat-desc">Total leads in database</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Hot Leads (SQL)</span>
+                        <div class="stat-icon-wrapper" style="color: var(--danger); background: rgba(239,68,68,0.15);"><i class="fa-solid fa-fire"></i></div>
+                    </div>
+                    <div id="card-hot-leads" class="stat-value">0</div>
+                    <div class="stat-desc">Score ≥ 70 (Qualified)</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Average Fit Score</span>
+                        <div class="stat-icon-wrapper" style="color: var(--cyan); background: rgba(6,182,212,0.15);"><i class="fa-solid fa-gauge"></i></div>
+                    </div>
+                    <div id="card-avg-score" class="stat-value">0</div>
+                    <div class="stat-desc">Across all enriched leads</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>CRM Synced</span>
+                        <div class="stat-icon-wrapper" style="color: var(--success); background: rgba(16,185,129,0.15);"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    </div>
+                    <div id="card-synced-leads" class="stat-value">0</div>
+                    <div class="stat-desc">Synchronized to Salesforce/HubSpot</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Est. Pipeline ARR</span>
+                        <div class="stat-icon-wrapper" style="color: var(--warning); background: rgba(245,158,11,0.15);"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                    </div>
+                    <div id="card-pipeline-arr" class="stat-value">$0.00</div>
+                    <div class="stat-desc">Assumed $25k per synced customer</div>
+                </div>
+            </div>
+
+            <!-- Row layout -->
+            <div class="dashboard-row">
+                <!-- Left: Pipeline chart/table -->
+                <div class="section-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-ranking-star"></i> High Scoring Pipeline Deals</h2>
+                        <button class="btn btn-secondary" onclick="switchTab('leads')">View Pipeline</button>
+                    </div>
+                    
+                    <div class="leads-table-container">
+                        <table>
+                            <thead>
+                                border-bottom
+                                <tr>
+                                    <th>Lead Company</th>
+                                    <th>Title</th>
+                                    <th>Region</th>
+                                    <th>Fit Score</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-leads-body">
+                                <!-- Dynamically loaded -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right: Scrolling Activity Feed -->
+                <div class="section-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-terminal"></i> Workflow Automation Logs</h2>
+                        <button class="btn btn-secondary" onclick="switchTab('audit')">View Logs</button>
+                    </div>
+                    
+                    <div id="dashboard-activities" class="activity-feed">
+                        <!-- Dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: LEADS PIPELINE -->
+        <div id="leads" class="tab-content">
+            <div class="section-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-user-group"></i> Complete Leads Pipeline</h2>
+                    <input type="text" id="search-bar" placeholder="Filter by company or email..." style="width: 250px; padding: 8px 12px;" onkeyup="filterLeadsTable()">
+                </div>
+
+                <div class="leads-table-container">
+                    <table id="leads-main-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Email</th>
+                                <th>Job Title</th>
+                                <th>Revenue</th>
+                                <th>Region</th>
+                                <th>Score</th>
+                                <th>Sync Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leads-table-body">
+                            <!-- Injected by script -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: LEAD INTAKE -->
+        <div id="intake" class="tab-content">
+            <div class="section-card" style="max-width: 800px; margin: 0 auto;">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-plus"></i> Ingest New GTM Lead</h2>
+                    <p style="color: var(--text-secondary); font-size: 12px;">Automated pipeline runs enrichment, scoring, and copywriting on submission</p>
+                </div>
+
+                <form id="lead-intake-form" onsubmit="submitIntakeForm(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="first_name">First Name *</label>
+                            <input type="text" id="first_name" required placeholder="e.g. Tony">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" placeholder="e.g. Stark">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Work Email *</label>
+                            <input type="email" id="email" required placeholder="e.g. tony@stark.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company *</label>
+                            <input type="text" id="company" required placeholder="e.g. Stark Industries">
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Job Title</label>
+                            <input type="text" id="title" placeholder="e.g. Chief Executive Officer">
+                        </div>
+                        <div class="form-group">
+                            <label for="revenue">Annual Revenue ($) *</label>
+                            <input type="number" id="revenue" required placeholder="e.g. 15000000">
+                        </div>
+                        <div class="form-group">
+                            <label for="region">Region</label>
+                            <select id="region">
+                                <option value="AMER">AMER (Americas)</option>
+                                <option value="EMEA">EMEA (Europe/Middle East)</option>
+                                <option value="APAC">APAC (Asia-Pacific)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="segment">Target Segment</label>
+                            <select id="segment">
+                                <option value="Enterprise">Enterprise</option>
+                                <option value="Mid-Market" selected>Mid-Market</option>
+                                <option value="SMB">SMB</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: flex-end; gap: 15px;">
+                        <button type="reset" class="btn btn-secondary">Reset Form</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-circle-arrow-right"></i> Run Revenue Pipeline</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: AUDIT LOGS -->
+        <div id="audit" class="tab-content">
+            <div class="section-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-list-check"></i> System Audit Trail Logs</h2>
+                    <button class="btn btn-secondary" onclick="fetchActivities()"><i class="fa-solid fa-refresh"></i> Refresh Audit Logs</button>
+                </div>
+
+                <div class="leads-table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Event Type</th>
+                                <th>Lead ID</th>
+                                <th>Audit Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-table-body">
+                            <!-- Injected by script -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentLeadId = null;
+
+        // Document Ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup Sidebar Tab Switching
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    menuItems.forEach(m => m.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    const tabId = item.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+
+            // Initial load
+            fetchDashboardData();
+        });
+
+        // Tab Switcher
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            // Handle title names
+            const titles = {
+                "dashboard": ["GTM Command Center", "Unified revenue automation dashboard & operations logger"],
+                "leads": ["Complete Leads Pipeline", "Interactive dashboard grid of customer leads & scores"],
+                "intake": ["Lead Intake Portal", "Manual ingestion form running the automation pipelines"],
+                "audit": ["System Audit Logs", "Transactional log trail monitoring API nodes & pipelines"]
+            };
+            
+            document.getElementById('page-title').innerText = titles[tabId][0];
+            document.getElementById('page-subtitle').innerText = titles[tabId][1];
+
+            // Trigger fetch based on tab
+            if (tabId === 'dashboard') {
+                fetchDashboardData();
+            } else if (tabId === 'leads') {
+                fetchLeads();
+            } else if (tabId === 'audit') {
+                fetchActivities();
+            }
+        }
+
+        // Show Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // API Fetch: Dashboard stats and logs
+        function fetchDashboardData() {
+            fetch('/api/dashboard/stats')
+                .then(res => res.json())
+                .then(data => {
+                    // Update scorecards
+                    document.getElementById('card-total-leads').innerText = data.total_leads;
+                    document.getElementById('card-hot-leads').innerText = data.hot_leads;
+                    document.getElementById('card-avg-score').innerText = data.avg_score + "/100";
+                    document.getElementById('card-synced-leads').innerText = data.synced_count;
+                    document.getElementById('card-pipeline-arr').innerText = "$" + data.est_pipeline.toLocaleString('en-US', {minimumFractionDigits: 2});
+
+                    // Load dashboard leads list
+                    loadDashboardLeadsTable();
+
+                    // Load activities
+                    const actFeed = document.getElementById('dashboard-activities');
+                    actFeed.innerHTML = '';
+                    data.activities.forEach(act => {
+                        const div = document.createElement('div');
+                        div.className = 'activity-item';
+                        
+                        let iconClass = 'fa-solid fa-info';
+                        let styleClass = 'act-start';
+
+                        if (act.action === 'LEAD_INGEST') { iconClass = 'fa-solid fa-cloud-arrow-down'; styleClass = 'act-ingest'; }
+                        else if (act.action === 'LEAD_ENRICH') { iconClass = 'fa-solid fa-wand-magic-sparkles'; styleClass = 'act-enrich'; }
+                        else if (act.action === 'AI_ANALYSIS') { iconClass = 'fa-solid fa-robot'; styleClass = 'act-analysis'; }
+                        else if (act.action === 'CRM_SYNC') { iconClass = 'fa-solid fa-cloud-arrow-up'; styleClass = 'act-crm'; }
+                        else if (act.action === 'EMAIL_NOTIFICATION') { iconClass = 'fa-solid fa-envelope'; styleClass = 'act-email'; }
+                        else if (act.action === 'SYSTEM_START') { iconClass = 'fa-solid fa-server'; styleClass = 'act-start'; }
+
+                        const actTime = new Date(act.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        div.innerHTML = `
+                            <div class="activity-icon ${styleClass}"><i class="${iconClass}"></i></div>
+                            <div class="activity-details">
+                                <span class="activity-text">${act.details}</span>
+                                <span class="activity-time">${actTime}</span>
+                            </div>
+                        `;
+                        actFeed.appendChild(div);
+                    });
+                });
+        }
+
+        // Fetch leads for dashboard summary
+        function loadDashboardLeadsTable() {
+            fetch('/api/leads')
+                .then(res => res.json())
+                .then(leads => {
+                    const tbody = document.getElementById('dashboard-leads-body');
+                    tbody.innerHTML = '';
+                    
+                    // Show top 5 highest score leads
+                    const topLeads = leads.slice(0, 5);
+                    topLeads.forEach(lead => {
+                        const tr = document.createElement('tr');
+                        tr.onclick = () => openDetailsPanel(lead);
+
+                        let badgeClass = 'score-cold';
+                        if (lead.score >= 70) badgeClass = 'score-hot';
+                        else if (lead.score >= 50) badgeClass = 'score-warm';
+
+                        let statusClass = 'status-new';
+                        if (lead.status === 'Enriched') statusClass = 'status-enriched';
+                        else if (lead.status === 'Synced') statusClass = 'status-synced';
+
+                        tr.innerHTML = `
+                            <td style="font-weight:600;">${lead.company}</td>
+                            <td>${lead.first_name} ${lead.last_name}</td>
+                            <td>${lead.region}</td>
+                            <td><span class="score-badge ${badgeClass}">${lead.score}</span></td>
+                            <td><span class="status-pill ${statusClass}">${lead.status}</span></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        // API Fetch: All Leads
+        function fetchLeads() {
+            fetch('/api/leads')
+                .then(res => res.json())
+                .then(leads => {
+                    const tbody = document.getElementById('leads-table-body');
+                    tbody.innerHTML = '';
+
+                    leads.forEach(lead => {
+                        const tr = document.createElement('tr');
+                        tr.onclick = () => openDetailsPanel(lead);
+
+                        let badgeClass = 'score-cold';
+                        if (lead.score >= 70) badgeClass = 'score-hot';
+                        else if (lead.score >= 50) badgeClass = 'score-warm';
+
+                        let statusClass = 'status-new';
+                        if (lead.status === 'Enriched') statusClass = 'status-enriched';
+                        else if (lead.status === 'Synced') statusClass = 'status-synced';
+
+                        tr.innerHTML = `
+                            <td style="font-weight:600;">${lead.first_name} ${lead.last_name}</td>
+                            <td>${lead.company}</td>
+                            <td>${lead.email}</td>
+                            <td>${lead.title}</td>
+                            <td>$${lead.revenue.toLocaleString()}</td>
+                            <td>${lead.region}</td>
+                            <td><span class="score-badge ${badgeClass}">${lead.score}</span></td>
+                            <td><span class="status-pill ${statusClass}">${lead.status}</span></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        // API Fetch: Activities Log list
+        function fetchActivities() {
+            fetch('/api/activities')
+                .then(res => res.json())
+                .then(activities => {
+                    const tbody = document.getElementById('audit-table-body');
+                    tbody.innerHTML = '';
+
+                    activities.forEach(act => {
+                        const tr = document.createElement('tr');
+                        const actDate = new Date(act.timestamp).toLocaleString();
+                        
+                        tr.innerHTML = `
+                            <td style="color:var(--text-secondary); width: 180px;">${actDate}</td>
+                            <td><span class="status-pill status-enriched" style="font-size:9px;">${act.action}</span></td>
+                            <td style="font-weight:700; color:var(--cyan);">#${act.lead_id || '-'}</td>
+                            <td>${act.details}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        // Form Submit: Ingest lead
+        function submitIntakeForm(e) {
+            e.preventDefault();
+            const data = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                email: document.getElementById('email').value,
+                company: document.getElementById('company').value,
+                title: document.getElementById('title').value,
+                revenue: parseFloat(document.getElementById('revenue').value),
+                region: document.getElementById('region').value,
+                segment: document.getElementById('segment').value
+            };
+
+            fetch('/api/leads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (res.ok) {
+                    showToast("Lead successfully ingested and pipeline triggered!");
+                    document.getElementById('lead-intake-form').reset();
+                    switchTab('dashboard');
+                } else {
+                    res.json().then(err => showToast("Error: " + err.error));
+                }
+            });
+        }
+
+        // Open Slide-over details panel
+        function openDetailsPanel(lead) {
+            currentLeadId = lead.id;
+            
+            // Text values
+            document.getElementById('lead-details-name').innerText = `${lead.first_name} ${lead.last_name}`;
+            document.getElementById('lead-details-company').innerText = lead.company;
+            document.getElementById('lead-details-score-val').innerText = lead.score;
+
+            // Status pill
+            const statusBadge = document.getElementById('lead-details-status');
+            statusBadge.innerText = lead.status;
+            statusBadge.className = 'status-pill';
+            if (lead.status === 'New') statusBadge.classList.add('status-new');
+            else if (lead.status === 'Enriched') statusBadge.classList.add('status-enriched');
+            else if (lead.status === 'Synced') statusBadge.classList.add('status-synced');
+
+            // Score Badge
+            const scoreBadge = document.getElementById('lead-details-score-badge');
+            scoreBadge.className = 'score-badge';
+            if (lead.score >= 70) {
+                scoreBadge.innerText = 'HOT';
+                scoreBadge.classList.add('score-hot');
+            } else if (lead.score >= 50) {
+                scoreBadge.innerText = 'WARM';
+                scoreBadge.classList.add('score-warm');
+            } else {
+                scoreBadge.innerText = 'COLD';
+                scoreBadge.classList.add('score-cold');
+            }
+
+            // Score bar transition
+            setTimeout(() => {
+                document.getElementById('lead-details-score-bar').style.width = lead.score + "%";
+            }, 100);
+
+            // Populate Factors
+            const factorsList = document.getElementById('lead-details-factors');
+            factorsList.innerHTML = '';
+            
+            // Static rules factor logic for UI rendering
+            const factorListItems = [
+                `Base scoring standard: +40`,
+                lead.title.match(/ceo|cto|cfo|vp|founder|president|director/i) ? `High intent title matches ICP criteria: +25` : `Medium-low title tier`,
+                lead.revenue >= 10000000.0 ? `Enterprise revenue tier (> $10M): +25` : (lead.revenue >= 1000000.0 ? `Mid-Market revenue tier: +15` : `SMB revenue tier: +5`),
+                !lead.email.match(/gmail|yahoo|hotmail|outlook/i) ? `Verified enterprise domain: +10` : `Public email domain warning: -20`,
+                lead.segment === 'Enterprise' ? `Target ICP Segment Match (Enterprise): +15` : `Segment (Mid-Market/SMB)`
+            ];
+
+            factorListItems.forEach(fact => {
+                if (!fact.includes('warning') && !fact.includes('tier') && !fact.includes('Match')) {
+                    factorsList.innerHTML += `<li><i class="fa-solid fa-circle-check"></i> ${fact}</li>`;
+                } else if (fact.includes('warning')) {
+                    factorsList.innerHTML += `<li><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> ${fact}</li>`;
+                } else {
+                    factorsList.innerHTML += `<li><i class="fa-solid fa-info" style="color:var(--cyan)"></i> ${fact}</li>`;
+                }
+            });
+
+            // Enrichment fields
+            document.getElementById('lead-details-industry').innerText = lead.enrich_industry || 'Pending Enrichment...';
+            document.getElementById('lead-details-employees').innerText = lead.enrich_employees ? lead.enrich_employees.toLocaleString() : 'Pending Enrichment...';
+            document.getElementById('lead-details-funding').innerText = lead.enrich_funding || 'Pending Enrichment...';
+            document.getElementById('lead-details-tech').innerText = lead.enrich_tech_stack || 'Pending Enrichment...';
+
+            // AI Insights
+            document.getElementById('lead-details-ai-summary').innerText = lead.ai_summary || 'Not generated yet. Click Re-Enrich & Score.';
+            document.getElementById('lead-details-ai-pain').innerHTML = lead.ai_pain_points ? lead.ai_pain_points.replace(/\n/g, '<br>') : 'Not generated yet.';
+            document.getElementById('lead-details-ai-email').innerText = lead.ai_email || 'Not generated yet.';
+
+            // CRM Sync statuses
+            const crmInfo = document.getElementById('crm-sync-info');
+            if (lead.crm_sync_status === 'Success') {
+                crmInfo.style.display = 'block';
+                document.getElementById('lead-details-hs-id').innerText = lead.crm_hubspot_id;
+                document.getElementById('lead-details-sf-id').innerText = lead.crm_salesforce_id;
+                document.getElementById('btn-action-crm').disabled = true;
+                document.getElementById('btn-action-crm').innerText = 'Synced Successfully';
+                document.getElementById('btn-action-crm').style.opacity = '0.6';
+            } else {
+                crmInfo.style.display = 'none';
+                document.getElementById('btn-action-crm').disabled = false;
+                document.getElementById('btn-action-crm').innerText = 'Push to CRMs';
+                document.getElementById('btn-action-crm').style.opacity = '1.0';
+            }
+
+            // Slide In Panel
+            document.getElementById('details-panel').classList.add('open');
+            document.getElementById('overlay').classList.add('show');
+        }
+
+        // Close Slide-over details panel
+        function closeDetailsPanel() {
+            document.getElementById('details-panel').classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+            currentLeadId = null;
+        }
+
+        // API Call: Trigger Manual Enrichment
+        function triggerManualEnrich() {
+            if (!currentLeadId) return;
+            const btn = document.getElementById('btn-action-enrich');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enriching...';
+            btn.disabled = true;
+
+            fetch(`/api/leads/${currentLeadId}/enrich`, { method: 'POST' })
+                .then(res => res.json())
+                .then(updatedLead => {
+                    btn.innerHTML = '<i class="fa-solid fa-sync"></i> Re-Enrich & Score';
+                    btn.disabled = false;
+                    showToast("Lead successfully enriched and scored!");
+                    openDetailsPanel(updatedLead); // Re-open with updated
+                    
+                    // Refresh data in background
+                    fetchDashboardData();
+                    fetchLeads();
+                });
+        }
+
+        // API Call: Trigger CRM Sync
+        function triggerCrmSync() {
+            if (!currentLeadId) return;
+            const btn = document.getElementById('btn-action-crm');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Syncing to CRMs...';
+            btn.disabled = true;
+
+            fetch(`/api/leads/${currentLeadId}/crm-sync`, { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    showToast("Synced to Salesforce and HubSpot!");
+                    
+                    // Fetch details of the lead again and refresh details panel
+                    fetch('/api/leads')
+                        .then(res => res.json())
+                        .then(leads => {
+                            const updated = leads.find(l => l.id === currentLeadId);
+                            if (updated) openDetailsPanel(updated);
+                        });
+                    
+                    fetchDashboardData();
+                    fetchLeads();
+                });
+        }
+
+        // Copy outreach email to clipboard
+        function copyEmailToClipboard() {
+            const emailText = document.getElementById('lead-details-ai-email').innerText;
+            navigator.clipboard.writeText(emailText).then(() => {
+                showToast("Personalized email copied to clipboard!");
+            });
+        }
+
+        // Filter Leads Table
+        function filterLeadsTable() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const rows = document.querySelectorAll('#leads-table-body tr');
+            
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
