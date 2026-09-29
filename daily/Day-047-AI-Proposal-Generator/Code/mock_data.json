@@ -1,0 +1,7 @@
+[
+  {
+    "id": "mock_001",
+    "entity": "lead",
+    "payload": {"company": "Acme Corp", "score": 85}
+  }
+]
